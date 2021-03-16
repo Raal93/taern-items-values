@@ -4,20 +4,20 @@ import ItemDescribe from "./ItemDescribe.js";
 import MeltOptions from "./MeltOptions.js";
 
 class Item extends Component {
-  convert = (value) => {
+  formatValue = (value) => {
     return value < 1000000 ? value / 1000 + "k" : value / 1000000 + "kk";
   };
 
-  convertTwo = (value1, value2) => {
+  formatTwoValues = (value1, value2) => {
     if (value1 === value2) {
-      return this.convert(value1);
+      return this.formatValue(value1);
     } else {
-      return this.convert(value1) + " - " + this.convert(value2);
+      return this.formatValue(value1) + " - " + this.formatValue(value2);
     }
   };
 
   render() {
-    const { convert, convertTwo, props } = this;
+    const { formatValue, formatTwoValues, props } = this;
 
     return (
       <table className="item">
@@ -26,13 +26,17 @@ class Item extends Component {
             <ItemTitle {...props} />
           </tr>
           <tr>
-            <ItemInfo convert={convert} convertTwo={convertTwo} {...props} />
+            <ItemInfo
+              formatValue={formatValue}
+              formatTwoValues={formatTwoValues}
+              {...props}
+            />
           </tr>
           <tr>
             <ItemDescribe {...props} />
           </tr>
           <tr className="transactions-row">
-            <ItemTransactionsHistory convert={convert} {...props} />
+            <ItemTransactionsHistory formatValue={formatValue} {...props} />
           </tr>
         </tbody>
       </table>
@@ -55,13 +59,9 @@ const ItemTitle = (props) => {
 };
 
 class ItemInfo extends Component {
-  // componentDidMount() {
-  //   getEssencesInfo(this.props.item.ranga);
-  // }
-
   render() {
     const { ranga, cenaRynkowaMin, cenaRynkowaMax } = this.props.item;
-    const { convertTwo } = this.props;
+    const { formatTwoValues } = this.props;
     const { props } = this;
     const {
       esencjeBezInhibitora,
@@ -71,14 +71,15 @@ class ItemInfo extends Component {
     return (
       <td>
         <ul className="itemInfo">
-          {/* pozminiać by korzystało z infoORandze */}
           <li>Ranga: {ranga}</li>
           <li>Esek bez inhibitora: {esencjeBezInhibitora}</li>
           <li>Esek z inhibitorem: {esencjeZInhibitorem}</li>
           <li>
             <MeltOptions {...props} />
           </li>
-          <li>Cena rynkowa: {convertTwo(cenaRynkowaMin, cenaRynkowaMax)}</li>
+          <li>
+            Cena rynkowa: {formatTwoValues(cenaRynkowaMin, cenaRynkowaMax)}
+          </li>
         </ul>
       </td>
     );

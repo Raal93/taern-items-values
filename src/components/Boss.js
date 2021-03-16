@@ -1,9 +1,11 @@
 import { Component } from "react";
 import Item from "./Item.js";
+import { essencesData } from "./Data.js";
 
 class Boss extends Component {
   render() {
-    const { bosses, essencesInfo } = this.props;
+    const { essencesInfo } = essencesData;
+    const { bosses } = this.props;
     const { props } = this;
 
     return bosses.map((boss, index) => {

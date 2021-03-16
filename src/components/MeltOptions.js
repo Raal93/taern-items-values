@@ -20,7 +20,7 @@ class MeltOptions extends Component {
       kosztInhibitoraPl,
       kosztInhibitoraKraft,
     } = this.props.infoORandze;
-    const { cenaPlatyny, cenaEsencji, convert } = this.props;
+    const { cenaPlatyny, cenaEsencji, formatValue } = this.props;
 
     // wyznacz koszty przetopienia: koszt inhibitora
     // wyznacz ilosc esek w zaleznosci od statusu inhibitora
@@ -49,11 +49,11 @@ class MeltOptions extends Component {
     // oblicz i zwroc zysk
     const profit = essAmount * cenaEsencji - (inhibCost + extractorCost);
 
-    return convert(profit);
+    return formatValue(profit);
   };
 
   calculateMinMaxProfit = () => {
-    const { convertTwo } = this.props;
+    const { formatTwoValues } = this.props;
     const {
       esencjeBezInhibitora,
       esencjeZInhibitorem,
@@ -64,7 +64,7 @@ class MeltOptions extends Component {
     const min = esencjeBezInhibitora * minEssencesValue - 20000;
     const max = esencjeZInhibitorem * maxEssencesValue - 20000;
 
-    return convertTwo(min, max);
+    return formatTwoValues(min, max);
   };
 
   setInhibStatus = () => {
@@ -179,7 +179,7 @@ class MeltOptions extends Component {
 
   render() {
     const { showMeltOptions, handleButtonClick, calculateMinMaxProfit } = this;
-    const { convertTwo } = this.props;
+    const { formatTwoValues } = this.props;
     const { zyskZesencjiMin, zyskZesencjiMax } = this.props.item;
 
     return (
